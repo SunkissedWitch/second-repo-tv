@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Link,
   Typography,
   Card,
   Button,
@@ -72,11 +71,6 @@ export const PasswordInput = ({ ...props }) => {
           </InputAdornment>
         ),
       }}
-      helperText={
-        <Link href="#" underline="none" color="primary">
-          Forgot Password?
-        </Link>
-      }
     />
   );
 };
@@ -102,6 +96,7 @@ export const UsernameInput = ({ ...props }) => {
       label="Email/Username"
       type="text"
       name="username"
+      error
       placeholder="example@mail.com"
     />
   );

@@ -12,8 +12,14 @@ import { ProfileTopBar, ProfileAvatar, ProfileUsername, TabLabel, FollowButton, 
 import { useRouter } from "next/router";
 import axios from '../../services/api';
 
-export async function fetchProfile(context) {
-  const { data: profile } = await axios.get(`/profile`);
+export async function fetchProfile(user) {
+  // const session = await unstable_getServerSession(context.req, context.res, authOptions)
+  // const { user } = session;
+  const { data: profile } = await axios.get(`/profile`, {
+    headers: {
+      'Authorization': `Bearer ${session.tv_api_token}`
+    }
+  });
   return profile;
 }
 

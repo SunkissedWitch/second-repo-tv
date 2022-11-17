@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import { MenuItem, Card, CardContent, Stack, Button, Grid, Box } from "@mui/material";
 import { styled } from "@mui/system";
 import bg from "../public/assets/LoginBackground.jpg";
-import { BackgroundPage } from '../components/BackgroundPage';
 import { FormInput } from '../components/Login/FormInput';
 import { FormSelect } from '../components/FormSelect'
 import { CustomCardHeader } from "../components/Login/CustomCardHeader";

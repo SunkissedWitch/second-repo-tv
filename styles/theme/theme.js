@@ -80,7 +80,7 @@ const theme = createTheme({
     MuiFormHelperText: {
       styleOverrides: {
         root: {
-          textAlign: 'right'
+          // textAlign: 'right' // TODO: check why text was aligned to the right
         }
       }
     },

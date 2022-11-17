@@ -7,6 +7,7 @@ import createEmotionCache from '../util/createEmotionCache';
 import theme from '../styles/theme/theme';
 import { createGlobalStyle } from "styled-components";
 import AppBar from '../components/AppBar';
+import { SessionProvider } from "next-auth/react"
 
 const GlobalStyle = createGlobalStyle`
     @font-face {
@@ -27,18 +28,20 @@ function MyApp(props) {
 
   return (
     <>
-      <CacheProvider value={emotionCache}>
-        <GlobalStyle/>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Box >
-            {/* <Header /> */}
-            <AppBar />
-            {getLayout(<Component {...pageProps} />)}
-            <Footer />
-          </Box>
-        </ThemeProvider>
-      </CacheProvider>
+      <SessionProvider session={pageProps.session}>
+        <CacheProvider value={emotionCache}>
+          <GlobalStyle />
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Box >
+              {/* <Header /> */}
+              <AppBar />
+              {getLayout(<Component {...pageProps} />)}
+              <Footer />
+            </Box>
+          </ThemeProvider>
+        </CacheProvider>
+      </SessionProvider>
     </>
 
   )

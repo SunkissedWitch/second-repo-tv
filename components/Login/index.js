@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { CardContent, Stack, Button } from "@mui/material";
+import { CardContent, Stack, Button, Link } from "@mui/material";
 import { OutlinedButton } from "../OutlinedButton";
 import { CustomCardHeader } from "../Login/CustomCardHeader";
+import { useRouter } from "next/router";
 import {
   LoginCard,
   AuthIconButton,
@@ -10,16 +11,16 @@ import {
   EmailInput,
   UsernameInput
 } from "./Login.styled";
-import { FacebookRounded, Apple } from "@mui/icons-material";
+import { FacebookRounded, Apple, ContentPasteSearchOutlined } from "@mui/icons-material";
 import GoogleIcon from '../Icons/GoogleColorIcon'
 import { TV_TALK_API } from "../../util/constants";
 import axios from "axios";
+import { useSession, signIn, signOut } from "next-auth/react"
 
 const Login = (props) => {
-  // const [formValues, setFormValues] = useState({
-  //   email: "",
-  //   password: "",
-  // });
+  const { data: session } = useSession()
+  const { providers } = props;
+  const router = useRouter();
   const [formValues, setFormValues] = useState({
     username: "",
     password: "",
@@ -37,11 +38,12 @@ const Login = (props) => {
 
   const onSubmit = async () => {
     console.log("form values", formValues);
+
     // requared username - not email
     try {
-      const { data } = await axios.post(authUrl, formValues)
-      const { token } = data
-      localStorage.setItem('TV_TALK_AUTH_TOKEN', token)
+      // const { data: { token } } = await axios.post(authUrl, formValues)
+      signIn(providers.credentials.id, formValues);
+      // router.push('/profile/reactions');
     } catch (error) {
       console.log('error', error)
     }
@@ -58,13 +60,13 @@ const Login = (props) => {
       <CardContent sx={{ paddingY: 2.5 }}>
         <Stack direction="column" spacing={3}>
           <Stack direction="column" spacing={1.25}>
-            <AuthIconButton color="secondary" startIcon={<GoogleIcon />}>
+            <AuthIconButton onClick={() => signIn(providers.google.id)} color="secondary" startIcon={<GoogleIcon />}>
               Continue with Google
             </AuthIconButton>
-            <AuthIconButton color="primary" startIcon={<FacebookRounded />}>
+            <AuthIconButton onClick={() => signIn(providers.facebook.id)} color="primary" startIcon={<FacebookRounded />}>
               Continue with Facebook
             </AuthIconButton>
-            <OutlinedButton size="large" sx={{ color: 'text.primary'}} startIcon={<Apple />}>
+            <OutlinedButton onClick={() => signIn(providers.apple.id)} size="large" sx={{ color: 'text.primary'}} startIcon={<Apple />}>
               Continue with Apple
             </OutlinedButton>
           </Stack>
@@ -76,6 +78,9 @@ const Login = (props) => {
               value={formValues.password}
               onChange={handleChange}
             />
+            <Link href="#" underline="none" color="primary">
+              Forgot Password?
+            </Link>
           </Stack>
           <Button
             size="large"

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Grid, Box } from "@mui/material";
 import bg from "../public/assets/LoginBackground.jpg";
-import { BackgroundPage } from "../components/BackgroundPage";
 import Login from "../components/Login";
+import { useSession, getProviders } from "next-auth/react"
 
 const login = (props) => {
-  console.log(bg)
+  const session = useSession();
+  console.log('session', session);
   return (
     <>
       <Box
@@ -22,7 +23,7 @@ const login = (props) => {
         >
           <Grid item xs={0} md={6} lg={6} />
           <Grid item xs={12} md={5} lg={4}>
-            <Login />
+            <Login {...props}/>
           </Grid>
           <Grid item xs={0} md={1} lg={2} />
         </Grid>
@@ -32,3 +33,12 @@ const login = (props) => {
 };
 
 export default login;
+
+export async function getServerSideProps(context) {
+  const providers = await getProviders();
+  return {
+    props: { providers },
+  }
+}
+
+
