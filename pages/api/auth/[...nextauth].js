@@ -36,8 +36,8 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET
     }),
     FacebookProvider({
-      clientId: '1831604947079646',
-      clientSecret: 'eabff33f8b9d1d2da4d8a12436429b5c'
+      clientId: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     })
   ],
   callbacks: {
